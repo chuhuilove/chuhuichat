@@ -34,16 +34,17 @@ public class ChatInitializer implements WebApplicationInitializer {
 
 
 
-        // Create the dispatcher servlet's Spring application context
-        AnnotationConfigWebApplicationContext dispatcherContext = new AnnotationConfigWebApplicationContext();
-        // Register and map the dispatcher servlet
-        dispatcherContext.register(DispatcherConfig.class);
+//        // Create the dispatcher servlet's Spring application context
+//        AnnotationConfigWebApplicationContext dispatcherContext = new AnnotationConfigWebApplicationContext();
+//        // Register and map the dispatcher servlet
+//        dispatcherContext.register(DispatcherConfig.class);
+//        dispatcherContext.refresh();
 
         /**
          * 添加servlet
          */
         ServletRegistration.Dynamic dispatcherServlet =
-                servletCxt.addServlet("dispatcherServlet", new DispatcherServlet(dispatcherContext));
+                servletCxt.addServlet("dispatcherServlet", new DispatcherServlet(rootWebApplicationContext));
         dispatcherServlet.setLoadOnStartup(1);
         dispatcherServlet.addMapping("/");
 

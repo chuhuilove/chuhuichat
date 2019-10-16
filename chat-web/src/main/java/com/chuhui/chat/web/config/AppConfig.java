@@ -14,7 +14,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
  * @Description:TODO
  */
 @Configuration
-@ComponentScan("com.chuhui.chat.services")
+@ComponentScan(basePackages={"com.chuhui.chat"})
 public class AppConfig {
 
     /**
@@ -27,14 +27,14 @@ public class AppConfig {
         return new PropertySourcesPlaceholderConfigurer();
     }
 
-    /**
-     * 文件上传组件
-     *
-     * @return CommonsMultipartResolver实例
-     */
-    @Bean("multipartResolver")
-    public CommonsMultipartResolver multipartResolver() {
-        return new CommonsMultipartResolver();
-    }
+//    /**
+//     * 文件上传组件
+//     *
+//     * @return CommonsMultipartResolver实例
+//     */
+//    @Bean("multipartResolver")
+//    public CommonsMultipartResolver multipartResolver() {
+//        return new CommonsMultipartResolver();
+//    }
 
 }

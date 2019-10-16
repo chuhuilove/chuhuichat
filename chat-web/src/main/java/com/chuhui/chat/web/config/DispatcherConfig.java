@@ -14,9 +14,9 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
  * @Date: 2019/10/16 0016
  * @Description:TODO
  */
-@Configuration
-@ComponentScan("com.chuhui.chat.web.controller")
-@EnableWebMvc
+//@Configuration
+//@ComponentScan("com.chuhui.chat.web.controller")
+//@EnableWebMvc
 public class  DispatcherConfig extends WebMvcConfigurationSupport {
 
 
