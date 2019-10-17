@@ -7,7 +7,7 @@
     <groupId>com.chuhui.chat</groupId>
     <artifactId>chuhuichat</artifactId>
     <packaging>pom</packaging>
-    <version>${chat-version}</version>
+    <version>1.0-SNAPSHOT</version>
     <modules>
         <module>chat-framework</module>
         <module>chat-interface</module>
@@ -20,6 +20,7 @@
         <javax-servlet.version>4.0.1.cyzi</javax-servlet.version>
         <chat-version>1.0-SNAPSHOT</chat-version>
         <thymeleaf.version>3.0.11.RELEASE</thymeleaf.version>
+        <fastjson.version>1.2.62</fastjson.version>
     </properties>
 
 
@@ -71,9 +72,14 @@
             <version>${thymeleaf.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
+
 
     </dependencies>
-
 
 
 

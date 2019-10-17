@@ -1,7 +1,7 @@
 package com.chuhui.chat.web;
 
 import com.chuhui.chat.web.config.AppConfig;
-import com.chuhui.chat.web.config.DispatcherConfig;
+import com.chuhui.chat.web.config.WebMvcConfig;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -23,32 +23,40 @@ import javax.servlet.ServletRegistration;
  */
 public class ChatInitializer implements WebApplicationInitializer {
 
+    @Override
     public void onStartup(ServletContext servletCxt) {
 
+        /**
+         * 初始化Spring 环境
+         */
 
+        AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
 
-        AnnotationConfigWebApplicationContext rootWebApplicationContext = new AnnotationConfigWebApplicationContext();
-        rootWebApplicationContext.register(AppConfig.class);
-        // 添加上下文加载监听器
-        servletCxt.addListener(new ContextLoaderListener(rootWebApplicationContext));
+        rootContext.register(AppConfig.class);
+        rootContext.refresh();
 
-
-
-//        // Create the dispatcher servlet's Spring application context
-//        AnnotationConfigWebApplicationContext dispatcherContext = new AnnotationConfigWebApplicationContext();
-//        // Register and map the dispatcher servlet
-//        dispatcherContext.register(DispatcherConfig.class);
-//        dispatcherContext.refresh();
+        servletCxt.addListener(new ContextLoaderListener(rootContext));
+        servletCxt.setInitParameter("defaultHtmlEscape", "true");
 
         /**
-         * 添加servlet
+         * 初始化 Spring web环境
+         */
+        // now the config for the Dispatcher servlet
+        AnnotationConfigWebApplicationContext mvcContext = new AnnotationConfigWebApplicationContext();
+        mvcContext.register(WebMvcConfig.class);
+
+        /**
+         * 添加{#@link DispatcherServlet}
          */
         ServletRegistration.Dynamic dispatcherServlet =
-                servletCxt.addServlet("dispatcherServlet", new DispatcherServlet(rootWebApplicationContext));
+                servletCxt.addServlet("dispatcherServlet", new DispatcherServlet(mvcContext));
         dispatcherServlet.setLoadOnStartup(1);
         dispatcherServlet.addMapping("/");
 
+
         /**
+         * 当提交表单并且表单中有中文的时候,默认情况下的会出现乱码
+         * 配置此过滤器能能避免乱码的情况出现
          * 配置过滤器,编码过滤器
          */
         FilterRegistration.Dynamic encodingFilter =
@@ -56,10 +64,6 @@ public class ChatInitializer implements WebApplicationInitializer {
         encodingFilter.setInitParameter("encoding", "UTF-8");
         encodingFilter.setInitParameter("forceEncoding", "true");
         encodingFilter.addMappingForUrlPatterns(null, true, "/*");
-
-
-
-
 
 
     }

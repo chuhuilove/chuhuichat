@@ -13,6 +13,9 @@ import java.time.format.DateTimeFormatter;
 public class Contants {
 
     public static final  DateTimeFormatter customTimeFormat=DateTimeFormatter.ofPattern("yyyy-MM-dd HH:ss:mm");
+    public static final  DateTimeFormatter customTimeFormat2=DateTimeFormatter.ofPattern("yyyy-MM-dd HH:ss:mm:SSS");
+
+
 
     /**
      * 格式化当前时间
@@ -20,8 +23,6 @@ public class Contants {
      * @return 格式化后的当前时间
      */
     public static String formatCurrentTime(DateTimeFormatter format){
-
-
        return  LocalDateTime.now().format(format);
 
     }
