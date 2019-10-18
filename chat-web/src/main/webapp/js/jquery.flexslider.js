@@ -182,7 +182,7 @@
           slider.controlNavScaffold.delegate('a, img', eventType, function(event) {
             event.preventDefault();
             var $this = $(this),
-                target = slider.controlNav.index($this);
+                target = slider.controlNav.websocket($this);
 
             if (!$this.hasClass(namespace + 'active')) {
               slider.direction = (target > slider.currentSlide) ? "next" : "prev";
@@ -203,7 +203,7 @@
           slider.controlNav.live(eventType, function(event) {
             event.preventDefault();
             var $this = $(this),
-                target = slider.controlNav.index($this);
+                target = slider.controlNav.websocket($this);
                 
             if (!$this.hasClass(namespace + 'active')) {
               (target > slider.currentSlide) ? slider.direction = "next" : slider.direction = "prev";
@@ -750,7 +750,7 @@
       vars.added(slider);
     }
     slider.removeSlide = function(obj) {
-      var pos = (isNaN(obj)) ? slider.slides.index($(obj)) : obj;
+      var pos = (isNaN(obj)) ? slider.slides.websocket($(obj)) : obj;
       
       // update count
       slider.count -= 1;

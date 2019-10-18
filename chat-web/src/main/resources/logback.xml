@@ -1,0 +1,22 @@
+<configuration info="true">
+
+
+    <appender name="STDOUT-COLOR" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoders are assigned the type
+             ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+        <encoder>
+            <pattern>%highlight(%d{HH:mm:ss.SSS} [%thread] [%-5level] %logger{36} %msg%n)</pattern>
+        </encoder>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="STDOUT-COLOR"/>
+    </root>
+
+
+    <!--
+    logback 在控制台上输出日志
+    https://stackoverflow.com/questions/31046748/logback-use-colored-output-only-when-logging-to-a-real-terminal
+    -->
+
+</configuration>

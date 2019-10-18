@@ -21,6 +21,8 @@
         <chat-version>1.0-SNAPSHOT</chat-version>
         <thymeleaf.version>3.0.11.RELEASE</thymeleaf.version>
         <fastjson.version>1.2.62</fastjson.version>
+        <logback.version>1.2.3</logback.version>
+        <sl4j.version>1.7.25</sl4j.version>
     </properties>
 
 
@@ -64,6 +66,11 @@
             <artifactId>spring-websocket</artifactId>
             <version>${spring-framework.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-messaging</artifactId>
+            <version>${spring-framework.version}</version>
+        </dependency>
 
 
         <dependency>
@@ -76,6 +83,14 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>${fastjson.version}</version>
+        </dependency>
+
+        <!--集成logback日志-->
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
         </dependency>
 
 

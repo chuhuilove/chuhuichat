@@ -2,6 +2,10 @@ package com.chuhui.chat.web;
 
 import com.chuhui.chat.web.config.AppConfig;
 import com.chuhui.chat.web.config.WebMvcConfig;
+import com.chuhui.chat.web.config.WebSocketConfig;
+import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -23,8 +27,12 @@ import javax.servlet.ServletRegistration;
  */
 public class ChatInitializer implements WebApplicationInitializer {
 
+    private final Logger logger = LoggerFactory.getLogger(ChatInitializer.class);
+
     @Override
     public void onStartup(ServletContext servletCxt) {
+
+        logger.info("invoke onStartup function ");
 
         /**
          * 初始化Spring 环境
@@ -34,6 +42,9 @@ public class ChatInitializer implements WebApplicationInitializer {
 
         rootContext.register(AppConfig.class);
         rootContext.refresh();
+        if(logger.isDebugEnabled()){
+            logger.debug("spring context environment has initialed");
+        }
 
         servletCxt.addListener(new ContextLoaderListener(rootContext));
         servletCxt.setInitParameter("defaultHtmlEscape", "true");
@@ -43,7 +54,7 @@ public class ChatInitializer implements WebApplicationInitializer {
          */
         // now the config for the Dispatcher servlet
         AnnotationConfigWebApplicationContext mvcContext = new AnnotationConfigWebApplicationContext();
-        mvcContext.register(WebMvcConfig.class);
+        mvcContext.register(WebMvcConfig.class, WebSocketConfig.class);
 
         /**
          * 添加{#@link DispatcherServlet}

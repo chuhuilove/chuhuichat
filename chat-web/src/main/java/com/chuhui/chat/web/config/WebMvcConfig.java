@@ -49,6 +49,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         registry.addResourceHandler("css/**").addResourceLocations("/css/");
         registry.addResourceHandler("js/**").addResourceLocations("/js/");
         registry.addResourceHandler("fonts/**").addResourceLocations("/fonts/");
+        registry.addResourceHandler("webjars/**").addResourceLocations("/webjars/");
     }
 
 

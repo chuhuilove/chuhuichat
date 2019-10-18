@@ -4,6 +4,10 @@
 
 <web-app>
 <!--    <welcome-file-list>-->
-<!--        <welcome-file>index.html</welcome-file>-->
+<!--        <welcome-file>websocket.html</welcome-file>-->
 <!--    </welcome-file-list>-->
+    <context-param>
+        <param-name/>
+        <param-value/>
+    </context-param>
 </web-app>

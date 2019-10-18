@@ -25,6 +25,12 @@ public class IndexController {
 
     @RequestMapping("/getSuccess")
     public String getSuccess() {
+
+
+
+        System.err.println("我要獲取調用鏈");
+        System.err.println("我要獲取調用鏈");
+        System.err.println("我要獲取調用鏈");
         return "success";
     }
 
@@ -37,10 +43,17 @@ public class IndexController {
     public String index() {
         return "index";
     }
+
+    @RequestMapping("/")
+    public String index1() {
+        return index();
+    }
+
     @RequestMapping("/login")
     public String login() {
         return "login";
     }
+
     @RequestMapping("/about")
     public String about() {
         return "about";
@@ -50,6 +63,12 @@ public class IndexController {
     public String single() {
         return "single";
     }
+
+    @RequestMapping("/websocket")
+    public String websocket() {
+        return "websocket";
+    }
+
     /**
      * 首页
      *
@@ -66,4 +85,6 @@ public class IndexController {
 
         return dto;
     }
+
+
 }
