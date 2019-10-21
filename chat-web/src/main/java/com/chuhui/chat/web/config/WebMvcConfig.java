@@ -26,7 +26,6 @@ import java.util.List;
  * @Description:
  */
 @Configuration
-//@EnableWebMvc 2019年10月17日15:45:04 在5.1.10 版本中,继承WebMvcConfigurationSupport和添加@EnableWebMvc不能同时启用
 @ComponentScan("com.chuhui.chat.web.controller")
 public class WebMvcConfig extends WebMvcConfigurationSupport {
 
@@ -52,58 +51,59 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         registry.addResourceHandler("js/**").addResourceLocations("/js/");
         registry.addResourceHandler("fonts/**").addResourceLocations("/fonts/");
         registry.addResourceHandler("webjars/**").addResourceLocations("/webjars/");
+        registry.addResourceHandler("*.html").addResourceLocations("/WEB-INF/templates/");
     }
 
-
-    @Override
-    protected void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        /**
-         * 添加FastJson 解析器
-         * 从这里
-         * https://docs.spring.io/spring/docs/5.1.10.RELEASE/spring-framework-reference/web.html#mvc-config-message-converters
-         * 抄来的
-         */
-//        FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
-//        converters.add(converter);
-
-    }
-
-
-    /**
-     * 启用Thymeleaf引擎
-     * 需要注册三个bean
-     * 直接去这里抄 https://www.thymeleaf.org/documentation.html
-     */
-
-    @Bean
-    public ThymeleafViewResolver viewResolver(SpringTemplateEngine templateEngine) {
-        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
-        viewResolver.setTemplateEngine(templateEngine);
-        viewResolver.setContentType("text/html;charset=utf-8");
-        return viewResolver;
-    }
-
-    @Bean
-    public SpringResourceTemplateResolver templateResolver() {
-        SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
-        templateResolver.setApplicationContext(this.context);
-        templateResolver.setPrefix("/WEB-INF/templates/");
-        templateResolver.setSuffix(".html");
-        templateResolver.setCacheable(false);
-        return templateResolver;
-    }
-
-    @Bean
-    public SpringTemplateEngine templateEngine(SpringResourceTemplateResolver templateResolver) {
-        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-        templateEngine.setTemplateResolver(templateResolver);
-        templateEngine.setEnableSpringELCompiler(true);
-        return templateEngine;
-    }
-
-    @Override
-    protected void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
-        exceptionResolvers.add(new ChatHandlerExceptionResolver());
-    }
+//
+//    @Override
+//    protected void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+//        /**
+//         * 添加FastJson 解析器
+//         * 从这里
+//         * https://docs.spring.io/spring/docs/5.1.10.RELEASE/spring-framework-reference/web.html#mvc-config-message-converters
+//         * 抄来的
+//         */
+////        FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
+////        converters.add(converter);
+//
+//    }
+//
+//
+//    /**
+//     * 启用Thymeleaf引擎
+//     * 需要注册三个bean
+//     * 直接去这里抄 https://www.thymeleaf.org/documentation.html
+//     */
+//
+//    @Bean
+//    public ThymeleafViewResolver viewResolver(SpringTemplateEngine templateEngine) {
+//        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
+//        viewResolver.setTemplateEngine(templateEngine);
+//        viewResolver.setContentType("text/html;charset=utf-8");
+//        return viewResolver;
+//    }
+//
+//    @Bean
+//    public SpringResourceTemplateResolver templateResolver() {
+//        SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
+//        templateResolver.setApplicationContext(this.context);
+//        templateResolver.setPrefix("/WEB-INF/templates/");
+//        templateResolver.setSuffix(".html");
+//        templateResolver.setCacheable(false);
+//        return templateResolver;
+//    }
+//
+//    @Bean
+//    public SpringTemplateEngine templateEngine(SpringResourceTemplateResolver templateResolver) {
+//        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+//        templateEngine.setTemplateResolver(templateResolver);
+//        templateEngine.setEnableSpringELCompiler(true);
+//        return templateEngine;
+//    }
+//
+//    @Override
+//    protected void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
+//        exceptionResolvers.add(new ChatHandlerExceptionResolver());
+//    }
 
 }

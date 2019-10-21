@@ -3,7 +3,6 @@ package com.chuhui.chat.web;
 import com.chuhui.chat.web.config.AppConfig;
 import com.chuhui.chat.web.config.WebMvcConfig;
 import com.chuhui.chat.web.config.WebSocketConfig;
-import org.apache.commons.logging.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.WebApplicationInitializer;

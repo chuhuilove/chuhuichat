@@ -21,6 +21,12 @@ public class GettingController {
     @MessageMapping("/hello")
     @SendTo("/topic/greetings")
     public Greeting greeting(HelloMessage message) throws Exception {
+
+        System.err.println("有WebSocket的请求进来了吗");
+        System.err.println("有WebSocket的请求进来了吗");
+        System.err.println("有WebSocket的请求进来了吗");
+        System.err.println("有WebSocket的请求进来了吗");
+
         return new Greeting("Hello, " + HtmlUtils.htmlEscape(message.getName()) + "!");
     }
 }

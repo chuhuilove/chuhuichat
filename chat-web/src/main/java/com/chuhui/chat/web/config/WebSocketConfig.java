@@ -23,8 +23,8 @@ import java.util.List;
  * @Description:TODO
  */
 @Configuration
-@EnableWebSocketMessageBroker
-public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+//@EnableWebSocketMessageBroker
+public class WebSocketConfig extends WebSocketMessageBrokerConfigurationSupport {
 
 
 
@@ -36,23 +36,23 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/chws").withSockJS()
+        registry.addEndpoint("/chuhuichat/chws/").withSockJS()
                 .setStreamBytesLimit(512 * 1024)
                 .setHttpMessageCacheSize(1000)
                 .setDisconnectDelay(30 * 1000);
     }
 
-    @Override
-    public boolean configureMessageConverters(List<MessageConverter> messageConverters) {
-
-        System.err.println("this is debugger ");
-        System.err.println("this is debugger ");
-        System.err.println("this is debugger ");
-        System.err.println("this is debugger ");
-
-
-        return true;
-    }
+//    @Override
+//    public boolean configureMessageConverters(List<MessageConverter> messageConverters) {
+//
+//        System.err.println("this is debugger ");
+//        System.err.println("this is debugger ");
+//        System.err.println("this is debugger ");
+//        System.err.println("this is debugger ");
+//
+//
+//        return true;
+//    }
 
 //    public class CustomMessageConverter extends AbstractMessageConverter {
 //
