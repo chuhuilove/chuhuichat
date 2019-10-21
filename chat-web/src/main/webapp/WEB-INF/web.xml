@@ -6,8 +6,4 @@
 <!--    <welcome-file-list>-->
 <!--        <welcome-file>websocket.html</welcome-file>-->
 <!--    </welcome-file-list>-->
-    <context-param>
-        <param-name/>
-        <param-value/>
-    </context-param>
 </web-app>

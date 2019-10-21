@@ -1,6 +1,6 @@
 package com.chuhui.chat.web.config;
 
-import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+//import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +10,8 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.resource.PathResourceResolver;
+import org.springframework.web.servlet.resource.WebJarsResourceResolver;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
@@ -61,8 +63,8 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
          * https://docs.spring.io/spring/docs/5.1.10.RELEASE/spring-framework-reference/web.html#mvc-config-message-converters
          * 抄来的
          */
-        FastJsonHttpMessageConverter converter=new FastJsonHttpMessageConverter();
-        converters.add(converter);
+//        FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
+//        converters.add(converter);
 
     }
 
@@ -74,7 +76,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
      */
 
     @Bean
-    public ThymeleafViewResolver viewResolver(SpringTemplateEngine templateEngine){
+    public ThymeleafViewResolver viewResolver(SpringTemplateEngine templateEngine) {
         ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
         viewResolver.setTemplateEngine(templateEngine);
         viewResolver.setContentType("text/html;charset=utf-8");
@@ -82,7 +84,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     }
 
     @Bean
-    public SpringResourceTemplateResolver templateResolver(){
+    public SpringResourceTemplateResolver templateResolver() {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
         templateResolver.setApplicationContext(this.context);
         templateResolver.setPrefix("/WEB-INF/templates/");
@@ -92,13 +94,12 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     }
 
     @Bean
-    public SpringTemplateEngine templateEngine(SpringResourceTemplateResolver templateResolver){
+    public SpringTemplateEngine templateEngine(SpringResourceTemplateResolver templateResolver) {
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(templateResolver);
         templateEngine.setEnableSpringELCompiler(true);
         return templateEngine;
     }
-
 
     @Override
     protected void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
