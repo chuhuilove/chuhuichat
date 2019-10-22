@@ -23,6 +23,7 @@
         <fastjson.version>1.2.62</fastjson.version>
         <logback.version>1.2.3</logback.version>
         <sl4j.version>1.7.25</sl4j.version>
+        <jedis.version>3.1.0</jedis.version>
     </properties>
 
 
@@ -79,11 +80,11 @@
             <version>${thymeleaf.version}</version>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>com.alibaba</groupId>-->
-            <!--<artifactId>fastjson</artifactId>-->
-            <!--<version>${fastjson.version}</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
 
         <!--集成logback日志-->
 
@@ -93,19 +94,12 @@
             <version>${logback.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>${jedis.version}</version>
+        </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>2.9.8</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-            <version>2.9.8</version>
-        </dependency>
 
 
     </dependencies>

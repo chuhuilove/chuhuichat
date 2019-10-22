@@ -11,14 +11,9 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
  * @Date: 2019/10/18 0018
  * @Description:TODO
  */
-public class WebSocketHandler extends TextWebSocketHandler {
+public class WebSocketHandler {
 
 
-    @Override
-    protected void handleTextMessage(WebSocketSession session, TextMessage message) {
-
-
-    }
 
 
 }

@@ -1,6 +1,7 @@
 package com.chuhui.chat.web.config;
 
 //import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -54,19 +55,19 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         registry.addResourceHandler("*.html").addResourceLocations("/WEB-INF/templates/");
     }
 
-//
-//    @Override
-//    protected void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-//        /**
-//         * 添加FastJson 解析器
-//         * 从这里
-//         * https://docs.spring.io/spring/docs/5.1.10.RELEASE/spring-framework-reference/web.html#mvc-config-message-converters
-//         * 抄来的
-//         */
-////        FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
-////        converters.add(converter);
-//
-//    }
+
+    @Override
+    protected void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        /**
+         * 添加FastJson 解析器
+         * 从这里
+         * https://docs.spring.io/spring/docs/5.1.10.RELEASE/spring-framework-reference/web.html#mvc-config-message-converters
+         * 抄来的
+         */
+        FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
+        converters.add(converter);
+
+    }
 //
 //
 //    /**
