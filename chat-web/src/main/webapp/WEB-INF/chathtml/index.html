@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type='text/css'/>
+    <script src="webjars/jquery/3.1.0/jquery.min.js"></script>
+    <script src="webjars/sockjs-client/1.0.2/sockjs.min.js"></script>
+    <script src="webjars/stomp-websocket/2.3.3/stomp.min.js"></script>
+</head>
+<body>
+
+<h2>完成点对点聊天和单对all聊天</h2>
+
+
+<form id="loginForm">
+
+    用户名:<input type="text" id="userName" value="1231313213" name="userName"/><br/>
+    密码:<input type="text" id="passWord" value="dasdadsa"  name="passWord"/><br/>
+    生日:<input type="text" id="birDate" value="2019-10-10" name="birDate"/><br/>
+
+    提交:<button type="button" value="button" onclick="login()"></button>
+
+</form>
+
+</body>
+
+<script>
+    function login(){
+        var userName=$("#userName").val();
+        var passWord=$("#passWord").val();
+        var birDate=$("#birDate").val();
+
+        console.info(userName+" "+passWord+"   "+birDate);
+
+        var jsonObj={};
+        jsonObj["userName"]=userName;
+        jsonObj["passWord"]=passWord;
+        jsonObj["birDate"]=birDate;
+
+
+
+        $.ajax({
+            url: "index/login",
+            type: "POST",
+            data: JSON.stringify(jsonObj),
+            contentType:"application/json",
+            success:function(data){
+                console.info(data);
+            }
+        })
+
+
+    }
+
+</script>
+
+
+</html>

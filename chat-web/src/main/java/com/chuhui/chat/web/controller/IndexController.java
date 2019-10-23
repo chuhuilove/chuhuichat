@@ -1,13 +1,18 @@
 package com.chuhui.chat.web.controller;
 
 import com.chuhui.chat.interfaces.IndexInterface;
+import com.chuhui.chat.interfaces.dto.ChatLoginDto;
 import com.chuhui.chat.interfaces.dto.LoginDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.Date;
+
+import static com.chuhui.chat.interfaces.SyatemConstants.LOGGED_USER;
 
 /**
  * IndexController
@@ -17,25 +22,39 @@ import java.util.Date;
  * @Description:TODO
  */
 @Controller
+@RequestMapping("/index")
 public class IndexController {
-
 
 
     @Autowired
     private IndexInterface indexService;
 
-//    @RequestMapping("/index.html")
-//    public @ResponseBody
-//    LoginDto index2() {
-//
-//        LoginDto dto = new LoginDto();
-//        dto.setUserName(indexService.getString());
-//        dto.setAge(100);
-//        dto.setDate(new Date());
-//
-//        return dto;
-//    }
+    @PostMapping("/login")
+    public @ResponseBody
+    LoginDto index2(@RequestBody ChatLoginDto loginDto, HttpServletRequest request) {
 
+        System.err.println("1111111");
+        System.err.println("1111111");
+        System.err.println("1111111");
+
+        LOGGED_USER.add(loginDto);
+
+
+        // 登录以后,需要保存登陆者信息
+        // 获取session ...
+        // 怎么做呢?
+        // 使用HttpS
+
+//        HttpSession session = request.getSession();
+
+
+        LoginDto dto = new LoginDto();
+        dto.setUserName(indexService.getString());
+        dto.setAge(100);
+        dto.setDate(new Date());
+
+        return dto;
+    }
 
 
 //

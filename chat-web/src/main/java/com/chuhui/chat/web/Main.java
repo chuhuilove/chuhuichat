@@ -1,7 +1,14 @@
 package com.chuhui.chat.web;
 
+import com.alibaba.fastjson.JSON;
+import com.chuhui.chat.interfaces.dto.ChatLoginDto;
+import org.springframework.http.MediaType;
+
+import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.chuhui.chat.framework.constant.Contants.customTimeFormat2;
 import static com.chuhui.chat.framework.constant.Contants.formatCurrentTime;
@@ -17,23 +24,24 @@ public class Main {
 
 
     public static void main(String[] args) {
-
-        StringBuilder builder = new StringBuilder();
-
-        for (int i = 0; i < 2000; i++) {
-
-            builder.append(UUID.randomUUID().toString().replaceAll("-", ""));
-            builder.append(" ");
-        }
+        getMediaTypeAll();
+    }
 
 
-        String str = builder.toString().trim();
 
-        System.err.println("start:" + formatCurrentTime(customTimeFormat2));
+    static void getMediaTypeAll(){
 
-        System.err.println(operationStr(str));
-        System.err.println("end:" + formatCurrentTime(customTimeFormat2));
+        Field[] fields = MediaType.class.getDeclaredFields();
+        List<Field> all = Arrays.asList(fields).stream().filter(e -> e.getType().equals(MediaType.class) && !e.getName().startsWith("ALL")).collect(Collectors.toList());
 
+        all.forEach(e-> System.err.println(e.getName()));
+
+    }
+
+
+    static ChatLoginDto convert(String mesage) {
+        ChatLoginDto chatLoginDto = JSON.parseObject(mesage, ChatLoginDto.class);
+        return chatLoginDto;
     }
 
     static String operationStr(String str) {

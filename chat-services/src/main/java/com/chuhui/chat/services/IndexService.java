@@ -29,6 +29,7 @@ public class IndexService implements IndexInterface {
 
         String result = MessageFormat.format("get String method, time:{0},uuid:{1}", currentTime, uuidStr);
 
+
         return result;
     }
 

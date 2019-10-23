@@ -17,6 +17,7 @@
 
     <properties>
         <spring-framework.version>5.1.10.cyzi</spring-framework.version>
+        <spring-data.version>2.1.8.RELEASE</spring-data.version>
         <javax-servlet.version>4.0.1.cyzi</javax-servlet.version>
         <chat-version>1.0-SNAPSHOT</chat-version>
         <thymeleaf.version>3.0.11.RELEASE</thymeleaf.version>
@@ -29,6 +30,7 @@
 
     <dependencies>
 
+        <!--spring framework-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
@@ -92,12 +94,6 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>${logback.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
-            <version>${jedis.version}</version>
         </dependency>
 
 
