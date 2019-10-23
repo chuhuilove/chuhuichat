@@ -2,8 +2,10 @@ package com.chuhui.chat.web.config;
 
 import com.alibaba.fastjson.support.spring.FastjsonSockJsMessageCodec;
 import com.alibaba.fastjson.support.spring.messaging.MappingFastJsonMessageConverter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.converter.MessageConverter;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
@@ -26,10 +28,25 @@ import java.util.List;
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
+    @Autowired
+    SimpMessagingTemplate template;
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
+        /***
+         * 这个订阅加上@SendTo注解里面的字符串,组成了客户端的订阅
+         */
         config.enableSimpleBroker("/topic");
+
+        /***
+         * 订阅以/app开头的消息体
+         *
+         * 假如发送的消息为/app/hello
+         *
+         * 则会以路由的方式寻找加了@MessageMapping("/hello")注解的方法...然后执行
+         *
+         *
+         */
         config.setApplicationDestinationPrefixes("/app");
     }
 
