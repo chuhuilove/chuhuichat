@@ -79,13 +79,17 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         config.setDateFormat("yyyy-MM-dd");
         config.setCharset(Charset.forName("UTF-8"));
 
+        // json字符串无法转换
+        //
         FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
         converter.setFastJsonConfig(config);
+
 
 
 // 添加支持的类型
         // TODO 这样做太low
         // 准备写个公共的方法
+        // https://yq.aliyun.com/articles/614457
         List<MediaType> supportedMediaTypes = new ArrayList<>();
         supportedMediaTypes.add(MediaType.APPLICATION_JSON);
         supportedMediaTypes.add(MediaType.APPLICATION_JSON_UTF8);
