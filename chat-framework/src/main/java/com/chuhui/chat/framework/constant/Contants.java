@@ -12,8 +12,8 @@ import java.time.format.DateTimeFormatter;
  */
 public class Contants {
 
-    public static final  DateTimeFormatter customTimeFormat=DateTimeFormatter.ofPattern("yyyy-MM-dd HH:ss:mm");
-    public static final  DateTimeFormatter customTimeFormat2=DateTimeFormatter.ofPattern("yyyy-MM-dd HH:ss:mm:SSS");
+    public static final  DateTimeFormatter customTimeFormat=DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    public static final  DateTimeFormatter customTimeFormat2=DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss:SSS");
 
 
 

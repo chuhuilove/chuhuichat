@@ -3,6 +3,7 @@ package com.chuhui.chat.web.controller;
 import com.chuhui.chat.interfaces.IndexInterface;
 import com.chuhui.chat.interfaces.dto.ChatLoginDto;
 import com.chuhui.chat.interfaces.dto.LoginDto;
+import com.chuhui.chat.web.utils.ServletUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.Date;
 
 import static com.chuhui.chat.interfaces.SyatemConstants.LOGGED_USER;
@@ -31,7 +33,7 @@ public class IndexController {
 
     @PostMapping("/login")
     public @ResponseBody
-    LoginDto index2(@RequestBody ChatLoginDto loginDto, HttpServletRequest request) {
+    LoginDto index2(@RequestBody ChatLoginDto loginDto) {
 
         System.err.println("1111111");
         System.err.println("1111111");
@@ -47,6 +49,13 @@ public class IndexController {
 
 //        HttpSession session = request.getSession();
 
+
+        String contextPath = ServletUtils.getRequest().getContextPath();
+        try {
+            ServletUtils.getResponse().sendRedirect(contextPath + "/main.html");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         LoginDto dto = new LoginDto();
         dto.setUserName(indexService.getString());
