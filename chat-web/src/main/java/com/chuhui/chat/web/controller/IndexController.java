@@ -2,18 +2,21 @@ package com.chuhui.chat.web.controller;
 
 import com.chuhui.chat.interfaces.IndexInterface;
 import com.chuhui.chat.interfaces.dto.ChatLoginDto;
-import com.chuhui.chat.interfaces.dto.LoginDto;
 import com.chuhui.chat.web.utils.ServletUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.util.Date;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import static com.chuhui.chat.interfaces.SyatemConstants.ALL_LOGGED_USER;
+import static com.chuhui.chat.interfaces.SyatemConstants.CURRENT_LOGGED_USER;
 import static com.chuhui.chat.interfaces.SyatemConstants.LOGGED_USER;
 
 /**
@@ -24,111 +27,81 @@ import static com.chuhui.chat.interfaces.SyatemConstants.LOGGED_USER;
  * @Description:TODO
  */
 @Controller
-@RequestMapping("/index")
 public class IndexController {
 
 
     @Autowired
     private IndexInterface indexService;
+    @Autowired
+    private SimpMessagingTemplate template;
 
     @PostMapping("/login")
     public @ResponseBody
-    LoginDto index2(@RequestBody ChatLoginDto loginDto) {
+    String login(@RequestBody ChatLoginDto loginDto) {
 
-        System.err.println("1111111");
-        System.err.println("1111111");
-        System.err.println("1111111");
-
-        LOGGED_USER.add(loginDto);
-
-
-        // 登录以后,需要保存登陆者信息
-        // 获取session ...
-        // 怎么做呢?
-        // 使用HttpS
-
-//        HttpSession session = request.getSession();
+        // 将当前客户端的信息,存储到数据库中...
+        // 要实现单点登录
+        // 单点登录,待定
+        ServletUtils.getSession().setAttribute(CURRENT_LOGGED_USER, loginDto);
 
 
-        String contextPath = ServletUtils.getRequest().getContextPath();
-        try {
-            ServletUtils.getResponse().sendRedirect(contextPath + "/main.html");
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (CollectionUtils.isEmpty(LOGGED_USER)) {
+            ServletUtils.getSession().setAttribute(ALL_LOGGED_USER, new HashSet<>());
+        } else {
+
+            Set<ChatLoginDto> collect = LOGGED_USER.stream().map(ChatLoginDto::getSelf).collect(Collectors.toSet());
+            ServletUtils.getSession().setAttribute(ALL_LOGGED_USER, collect);
         }
 
-        LoginDto dto = new LoginDto();
-        dto.setUserName(indexService.getString());
-        dto.setAge(100);
-        dto.setDate(new Date());
+        if (LOGGED_USER.contains(loginDto)) {
+            throw new RuntimeException(loginDto.getUserName() + " has logged");
+        }
+        LOGGED_USER.add(loginDto);
+        /**
+         * 这里直接进行重定向
+         * 转发和重定向的区别:
+         * 转发:浏览器上地址栏不变
+         * 重定向:浏览器上地址栏改变
+         */
 
-        return dto;
+        // 只有经过视图解析器的html文件,才能识别和视图解析器相关的符号...
+        //
+        return "main";
+    }
+
+    /**
+     * 返回一个被视图解析器解析过的页面
+     *
+     * @return
+     */
+
+    @GetMapping("/main")
+    public String getMainHtml() {
+        return "main";
     }
 
 
-//
-//    @RequestMapping("/getSuccess")
-//    public String getSuccess() {
-//
-//
-//
-//        System.err.println("我要獲取調用鏈");
-//        System.err.println("我要獲取調用鏈");
-//        System.err.println("我要獲取調用鏈");
-//        return "success";
-//    }
-//
-//    /**
-//     * 首页
-//     *
-//     * @return 首页
-//     */
-//    @RequestMapping("/index")
-//    public String index() {
-//        return "index";
-//    }
-//
-//    @RequestMapping("/")
-//    public String index1() {
-//        return index();
-//    }
-//
-//    @RequestMapping("/login")
-//    public String login() {
-//        return "login";
-//    }
-//
-//    @RequestMapping("/about")
-//    public String about() {
-//        return "about";
-//    }
-//
-//    @RequestMapping("/single")
-//    public String single() {
-//        return "single";
-//    }
-//
-//    @RequestMapping("/websocket")
-//    public String websocket() {
-//        return "websocket";
-//    }
-//
-//    /**
-//     * 首页
-//     *
-//     * @return 首页
-//     */
-//    @RequestMapping("/index2")
-//    public @ResponseBody
-//    LoginDto index2() {
-//
-//        LoginDto dto = new LoginDto();
-//        dto.setUserName(indexService.getString());
-//        dto.setAge(100);
-//        dto.setDate(new Date());
-//
-//        return dto;
-//    }
+    /**
+     * 退出
+     */
+    @GetMapping("/loginOut")
+    public @ResponseBody
+    void logOut() {
+        HttpSession session = ServletUtils.getSession();
+        ChatLoginDto currentUser = (ChatLoginDto) session.getAttribute(CURRENT_LOGGED_USER);
+        LOGGED_USER.remove(currentUser);
+        System.err.println(currentUser.getUserName() + " has quit");
+    }
+
+
+    @GetMapping("getChat/{fromUser}/{toUser}")
+    public String getChat(@PathVariable String fromUser, @PathVariable String toUser) {
+
+        HttpSession session = ServletUtils.getSession();
+        session.setAttribute("selfUserName", fromUser);
+        session.setAttribute("toUserName", toUser);
+        return "chat";
+    }
 
 
 }

@@ -4,17 +4,19 @@ import com.alibaba.fastjson.JSON;
 import com.chuhui.chat.interfaces.dto.ChatLoginDto;
 import org.springframework.http.MediaType;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
-import java.text.DateFormat;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
-import static com.chuhui.chat.framework.constant.Contants.*;
-import static com.ztesoft.zsmart.jdbc.qdb.util.DateUtil.string2SQLDate;
-import static java.util.Calendar.SECOND;
+import static com.chuhui.chat.framework.constant.Contants.customTimeFormat;
+import static com.chuhui.chat.framework.constant.Contants.formatCurrentTime;
 
 /**
  * Main
@@ -26,7 +28,7 @@ import static java.util.Calendar.SECOND;
 public class Main {
 
 
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args) throws Exception {
         getTimeZone();
     }
 
@@ -40,7 +42,15 @@ public class Main {
 
     }
 
-    static void getTimeZone() throws ParseException {
+
+    static void getFiJiDST(){
+
+
+
+
+    }
+
+    static void getTimeZone() throws ParseException, IOException, URISyntaxException {
 
 //        TimeZone defaultTimeZone = TimeZone.getDefault();
 //
@@ -69,13 +79,14 @@ public class Main {
 //        System.err.println(format.format(parse));
 
 
-        System.err.println(string2SQLDate("20191103011023", "yyyyMMddHHmmss"));
+//        System.err.println(string2SQLDate("20191103011023", "yyyyMMddHHmmss"));
 
         final TimeZone defaultTimeZone = TimeZone.getDefault();
 
         System.err.println(defaultTimeZone.getDisplayName());
         System.err.println(defaultTimeZone.getID());
 
+        Path path = Paths.get(Main.class.getClassLoader().getResource("DST.txt").toURI());
 
         Calendar instance = Calendar.getInstance();
 
@@ -88,12 +99,48 @@ public class Main {
         System.err.println("start time" + formatCurrentTime(customTimeFormat));
 
         LinkedList<Date> collect = (LinkedList<Date>) getAllTimeOfOneYear(instance, otherTime);
+        collect.sort(Date::compareTo);
 
-        System.err.println("start DST:"+format.format(collect.getFirst()));
-        System.err.println("end DST:"+format.format(collect.getLast()));
+
+//        Function funct
+
+
+
+//        collect.stream().collect(Collectors.groupingBy(date->{
+//
+//
+//
+//        }))
+
+
+        // 统计每天有多少个小时
+
+        /**
+         * 2019
+         */
+
+
+        List<String> streams = collect.stream().map(format::format).collect(Collectors.toList());
+
+        Files.write(path,streams);
+
+        /**
+         * 斐济2019-2020年夏令时
+         * 2019-11-3开始-2020-1-19结束
+         */
+
+        System.err.println("start DST:" + format.format(collect.getFirst()));
+        System.err.println("end DST:" + format.format(collect.getLast()));
+
+        // 一点进展都没有...这也太那啥了吧
+
+
+
 
 
         System.err.println("end time" + formatCurrentTime(customTimeFormat));
+
+
 
         System.err.println("this is debug");
         System.err.println("this is debug");
@@ -119,13 +166,13 @@ public class Main {
 //            if (defaultTimeZone.inDaylightTime(time)) {
                 dates.add(time);
 //            }
-            calendar.add(SECOND, 1);
+            calendar.add(Calendar.HOUR, 1);
             time = calendar.getTime();
         }
 
 //        Caused by: java.lang.IllegalArgumentException: the date string 20191110021706 is not matching format: yyyyMMddHHmmss
 
-        System.err.println("all time:"+dates.size());
+        System.err.println("all time:" + dates.size());
         return dates;
     }
 

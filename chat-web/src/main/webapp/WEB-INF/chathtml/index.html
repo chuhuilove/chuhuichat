@@ -7,52 +7,51 @@
     <script src="webjars/jquery/3.1.0/jquery.min.js"></script>
     <script src="webjars/sockjs-client/1.0.2/sockjs.min.js"></script>
     <script src="webjars/stomp-websocket/2.3.3/stomp.min.js"></script>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <script src="layui/layui.all.js" language='JavaScript'></script>
 </head>
 <body>
 
-<h2>完成点对点聊天和单对all聊天</h2>
+<h2>完成点对点聊天和单对聊天</h2>
 
 
 <form id="loginForm">
 
-    用户名:<input type="text" id="userName" value="1231313213" name="userName"/><br/>
-    密码:<input type="text" id="passWord" value="dasdadsa"  name="passWord"/><br/>
-    生日:<input type="text" id="birDate" value="2019-10-10" name="birDate"/><br/>
+    <label>用户名:<input type="text" id="userName" value="纯阳子" name="userName"/></label> <br/>
+    <label> 密码:<input type="text" id="passWord" value="dasdadsa" name="passWord"/></label><br/>
+    <label> 生日:<input type="text" id="birDate" value="2019-10-10" name="birDate"/></label><br/>
 
-    提交:<button type="button" value="button" onclick="login()"></button>
+    <!--如果将type设置为submit,则会产生莫名其妙的事情...妈的老子调试了半夜....-->
+    <button type="button" value="submit" onclick="loginFormSubmit()">点击提交</button>
 
 </form>
+
+
+
 
 </body>
 
 <script>
-    function login(){
-        var userName=$("#userName").val();
-        var passWord=$("#passWord").val();
-        var birDate=$("#birDate").val();
+    function loginFormSubmit() {
+        var userName = $("#userName").val();
+        var passWord = $("#passWord").val();
+        var birDate = $("#birDate").val();
 
-        console.info(userName+" "+passWord+"   "+birDate);
-
-        var jsonObj={};
-        jsonObj["userName"]=userName;
-        jsonObj["passWord"]=passWord;
-        jsonObj["birDate"]=birDate;
-
-
+        var jsonObj = {};
+        jsonObj["userName"] = userName;
+        jsonObj["passWord"] = passWord;
+        jsonObj["birDate"] = birDate;
 
         $.ajax({
-            url: "index/login",
-            type: "POST",
+            url: "login",
+            type: "post",
             data: JSON.stringify(jsonObj),
-            contentType:"application/json",
-            success:function(data){
-                console.info(data);
+            contentType: "application/json",
+            success: function (data) {
+             window.location.href=data;
             }
-        })
-
-
+        });
     }
-
 </script>
 
 

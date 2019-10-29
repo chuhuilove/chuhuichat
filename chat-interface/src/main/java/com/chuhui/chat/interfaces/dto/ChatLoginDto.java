@@ -1,6 +1,9 @@
 package com.chuhui.chat.interfaces.dto;
 
-import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import java.util.Date;
 import java.util.Objects;
 
@@ -11,7 +14,11 @@ import java.util.Objects;
  * @Date: 2019/10/23 0023
  * @Description:TODO
  */
-public class ChatLoginDto implements Serializable {
+@Getter
+@Setter
+@ToString
+
+public class ChatLoginDto {
 
     private String userName;
     private String passWord;
@@ -59,12 +66,14 @@ public class ChatLoginDto implements Serializable {
         return Objects.hash(userName, passWord);
     }
 
-    @Override
-    public String toString() {
-        return "ChatLoginDto{" +
-                "userName='" + userName + '\'' +
-                ", passWord='" + passWord + '\'' +
-                ", birDate=" + birDate +
-                '}';
+
+    public ChatLoginDto getSelf() {
+        ChatLoginDto chatLoginDto = new ChatLoginDto();
+
+        chatLoginDto.setBirDate(birDate);
+        chatLoginDto.setUserName(userName);
+        chatLoginDto.setPassWord(passWord);
+        return chatLoginDto;
     }
+
 }

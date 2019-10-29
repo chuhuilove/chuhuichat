@@ -21,9 +21,12 @@ public class ChatHandlerExceptionResolver implements HandlerExceptionResolver {
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
 
         System.err.println(ex.getMessage());
+        System.err.println(ex.getMessage());
+        System.err.println(ex.getMessage());
+        System.err.println(ex.getMessage());
 
-        ModelAndView  modelView=new ModelAndView();
-        String typeName = handler.getClass().getTypeName();
+        // 异常解析器中
+        // 还需要明白ThymeleafViewResolver 怎么使用  怎么配合ModelAndView使用
 
 
         return null;

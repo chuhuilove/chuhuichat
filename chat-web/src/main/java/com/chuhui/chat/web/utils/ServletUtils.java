@@ -18,6 +18,10 @@ import javax.servlet.http.HttpSession;
 public final class ServletUtils {
 
 
+    /**
+     * 同一个浏览器中的的session的hashcode是相同的
+     * @return 一个session对象
+     */
     public static HttpSession getSession() {
         return getRequest().getSession();
     }

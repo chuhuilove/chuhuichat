@@ -8,7 +8,7 @@ import java.util.Set;
 
 /**
  * SyatemConstants
- *
+ * <p>
  * 系统变量
  *
  * @author: cyzi
@@ -21,7 +21,16 @@ public class SyatemConstants {
     /**
      * 已经登录的用户
      */
-    public static final Set<ChatLoginDto> LOGGED_USER=Collections.synchronizedSet(new HashSet<>());
+    public static final Set<ChatLoginDto> LOGGED_USER = Collections.synchronizedSet(new HashSet<>());
+
+    /**
+     * 存储到session中的当前用户标记
+     */
+    public static final String CURRENT_LOGGED_USER = "currentUser";
+    /**
+     * 存储到session中的所有用户的标记
+     */
+    public static final String ALL_LOGGED_USER = "allUsers";
 
 
 }
