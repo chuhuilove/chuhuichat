@@ -1,9 +1,7 @@
 package com.chuhui.chat.web.controller;
 
-import com.chuhui.chat.interfaces.dto.ChatLoginDto;
 import com.chuhui.chat.interfaces.dto.HelloMessage;
 import com.chuhui.chat.interfaces.resp.Greeting;
-import com.chuhui.chat.web.utils.ServletUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.HtmlUtils;
 
-import static com.chuhui.chat.interfaces.SyatemConstants.CURRENT_LOGGED_USER;
 import static com.chuhui.chat.interfaces.SyatemConstants.LOGGED_USER;
 
 /**
@@ -45,12 +42,12 @@ public class ChatWirhController {
 
     @PostMapping("/chat")
     public @ResponseBody
-    String chat(String message, String username) {
+    void chat(String message, String username) {
 
         System.err.println("has message:" + message + " userName:" + username);
 
         template.convertAndSendToUser(username, "/app", message);
-        return "success";
+
     }
 
     /**

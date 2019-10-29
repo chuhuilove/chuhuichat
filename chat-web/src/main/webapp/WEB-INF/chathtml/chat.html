@@ -91,9 +91,7 @@
     <div id="header" th:text="${session.toUserName}"></div>
 
     <ul id="content">
-        <!--<li class="msg">-->
-            <!--this is message -->
-        <!--</li>-->
+
     </ul>
 
     <div id="footer">
@@ -108,45 +106,61 @@
 <script src="webjars/jquery/3.1.0/jquery.min.js"></script>
 <script src="webjars/sockjs-client/1.0.2/sockjs.min.js"></script>
 <script src="webjars/stomp-websocket/2.3.3/stomp.min.js"></script>
+<script src="layui/layui.js"></script>
 <script th:inline="javascript">
 
     // 点对点传输
     // 发布,订阅模式
     // 两种情况
-    var info = [[${session.selfUserName}]];
+    var selfUserName = [[${session.selfUserName}]];
 
     var sendToname = [[${session.toUserName}]];
 
-
-    console.info("this is chat.html");
     $(function () {
 
         $("#sendButton").click(function () {
 
             var chatMsg = $("#sendVal").val();
+
+            if(chatMsg==undefined){
+                layer.msg("发送内容不能为空!");
+                return ;
+            }
+
+            if(chatMsg.trim().length<=0){
+                layer.msg("发送内容不能为空!");
+                return ;
+            }
             $("#sendVal").val("");
 
             $("#content ").append("  <li class=\"msg\">" + chatMsg + "</li>");
 
+            // 将数据发送到java端
+            // java端通过java端注入的SimpMessagingTemplate,能将数据发送到其他人那里,实现点对点的传输
             $.ajax({
-                url: "chatWith/chat",//发送在线人数给所有客户端
+                url: "chatWith/chat",
                 type: "post",
                 data: 'message=' + chatMsg + '&username=' + sendToname,
                 dataType: "json",
                 success: function (data) {
-                    console.info("chatWith/chat chat.html" + data);
                 }
             });
         });
 
 
+        // 打开websocket连接之后,开启
         var socket = new SockJS('/chuhuichat/chws');
         stompClient = Stomp.over(socket);
         stompClient.connect({}, function (frame) {
-            console.log(sendToname + "pppppppppppppppppppppppp");
-            //訂閲  聊天的消息，發給我
+            // SockJS的document
 
-            stompClient.subscribe('/user/' + info + "/app", function (data) {
+
+            layer.msg(sendToname + "pppppppppppppppppppppppp");
+            //订阅聊天的消息
+
+            var subStr='/user/' + selfUserName + "/app";
+
+            stompClient.subscribe(subStr, function (data) {
                 $("#content").append("  <li class=\"msg\" style='background-color: #B2B2B2'>" + data.body + "</li>");
             });
 

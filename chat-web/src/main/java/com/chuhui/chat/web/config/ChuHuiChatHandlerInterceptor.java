@@ -1,8 +1,12 @@
 package com.chuhui.chat.web.config;
 
-import org.springframework.ui.ModelMap;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.context.request.WebRequestInterceptor;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.HandlerMapping;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import static com.chuhui.chat.interfaces.SyatemConstants.CURRENT_LOGGED_USER;
 
 /**
  * ChuHuiChatWebRequestInterceptor
@@ -13,39 +17,17 @@ import org.springframework.web.context.request.WebRequestInterceptor;
  * @author: 纯阳子
  * @date: 2019/10/27
  */
-public class ChuHuiChatHandlerInterceptor implements WebRequestInterceptor {
-    @Override
-    public void preHandle(WebRequest request) throws Exception {
-
-        System.err.println(request.getRemoteUser());
-
-    }
+public class ChuHuiChatHandlerInterceptor implements HandlerInterceptor {
 
     @Override
-    public void postHandle(WebRequest request, ModelMap model) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 
+        Object attribute = request.getSession().getAttribute(CURRENT_LOGGED_USER);
+        if (attribute == null) {
+            System.err.println(Thread.currentThread().getName() + " intercept from client request uri:" + request.getRequestURI() + ",because not found session");
+            return false;
+        }
+        return true;
     }
-
-    @Override
-    public void afterCompletion(WebRequest request, Exception ex) throws Exception {
-
-    }
-
-//
-//    @Override
-//    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-//            throws Exception {
-//
-//        HttpSession session = request.getSession();
-//
-//        Object currentUser = session.getAttribute("currentUser");
-//        if (currentUser == null || !LOGGED_USER.contains(currentUser)) {
-//            // 重定向到index
-//            System.err.println("重定向到登录界面");
-//            return false;
-//        }
-//        return true;
-//    }
-
 
 }

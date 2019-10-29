@@ -8,8 +8,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
+import org.springframework.web.servlet.HandlerMapping;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.thymeleaf.spring5.SpringTemplateEngine;
@@ -19,6 +23,9 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.chuhui.chat.framework.constant.Contants.customTimeFormat2;
+import static com.chuhui.chat.framework.constant.Contants.formatCurrentTime;
 
 /**
  * SpringWebConfig
@@ -44,19 +51,24 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 
 // 如何加一个全局的拦截器??
 
+    private ResourceHandlerRegistry registry;
+
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+
+        System.err.println("invoke method addResourceHandlers"+formatCurrentTime(customTimeFormat2));
+
         /**
          * 将一切静态资源,全部放过去
          */
-        registry.addResourceHandler("images/**").addResourceLocations("/images/");
-        registry.addResourceHandler("css/**").addResourceLocations("/css/");
-        registry.addResourceHandler("js/**").addResourceLocations("/js/");
-        registry.addResourceHandler("fonts/**").addResourceLocations("/fonts/");
-        registry.addResourceHandler("layui/**").addResourceLocations("/layui/");
-        registry.addResourceHandler("webjars/**").addResourceLocations("/webjars/");
+        registry.addResourceHandler("images/**.png").addResourceLocations("/images/").setCachePeriod(-1);
+        registry.addResourceHandler("css/**.css").addResourceLocations("/css/").setCachePeriod(-1);
+        registry.addResourceHandler("js/**.js").addResourceLocations("/js/").setCachePeriod(-1);
+        registry.addResourceHandler("fonts/**.ttf").addResourceLocations("/fonts/").setCachePeriod(-1);
+        registry.addResourceHandler("layui/**").addResourceLocations("/layui/").setCachePeriod(-1);
+        registry.addResourceHandler("webjars/**").addResourceLocations("/webjars/").setCachePeriod(-1);
         // html 需要经过视图解析器, 才能识别里面的东西
-        registry.addResourceHandler("*.html").addResourceLocations("/WEB-INF/chathtml/");
+        registry.addResourceHandler("*.html").addResourceLocations("/WEB-INF/chathtml/").setCachePeriod(-1);
     }
 
 
@@ -69,7 +81,6 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
          * 抄来的
          */
 
-
         FastJsonConfig config = new FastJsonConfig();
         config.setDateFormat("yyyy-MM-dd");
         config.setCharset(Charset.forName("UTF-8"));
@@ -80,7 +91,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         converter.setFastJsonConfig(config);
 
 
-// 添加支持的类型
+        // 添加支持的类型
         // TODO 这样做太low
         // 准备写个公共的方法
         // https://yq.aliyun.com/articles/614457
@@ -105,9 +116,9 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         converter.setSupportedMediaTypes(supportedMediaTypes);
 
         converters.add(converter);
+        converters.add(new FormHttpMessageConverter());
 
     }
-
 
     //
 //
@@ -154,9 +165,22 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 
     @Override
     protected void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
-
         exceptionResolvers.add(new ChatHandlerExceptionResolver());
+    }
 
+
+    @Override
+    protected void addInterceptors(InterceptorRegistry registry) {
+
+        System.err.println("invoke method addInterceptors "+formatCurrentTime(customTimeFormat2));
+        InterceptorRegistration interceptorRegistration = registry.addInterceptor(new ChuHuiChatHandlerInterceptor());
+
+        interceptorRegistration.excludePathPatterns("/**.html");
+//        interceptorRegistration.excludePathPatterns("/**.css");
+//        interceptorRegistration.excludePathPatterns("/**.js");
+
+
+//                .excludePathPatterns("/**.html");
     }
 
 
