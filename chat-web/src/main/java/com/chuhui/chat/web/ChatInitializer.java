@@ -58,8 +58,12 @@ public class ChatInitializer implements WebApplicationInitializer {
         /**
          * 添加{#@link DispatcherServlet}
          */
+        DispatcherServlet servlet = new DispatcherServlet(mvcContext);
+        // 没有找到请求,不走默认的流程
+        // 走到自定义的异常处理器中
+        servlet.setThrowExceptionIfNoHandlerFound(true);
         ServletRegistration.Dynamic dispatcherServlet =
-                servletCxt.addServlet("dispatcherServlet", new DispatcherServlet(mvcContext));
+                servletCxt.addServlet("dispatcherServlet", servlet);
         dispatcherServlet.setLoadOnStartup(1);
         dispatcherServlet.addMapping("/");
 

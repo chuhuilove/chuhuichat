@@ -77,6 +77,7 @@ public class IndexController {
 
     @GetMapping("/main")
     public String getMainHtml() {
+        int a = 1 / 0;
         return "main";
     }
 
@@ -102,6 +103,11 @@ public class IndexController {
         session.setAttribute("toUserName", toUser);
         return "chat";
     }
+
+
+
+
+
 
 
 }

@@ -1,10 +1,11 @@
 package com.chuhui.chat.web.config;
 
+import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 import static com.chuhui.chat.interfaces.SyatemConstants.CURRENT_LOGGED_USER;
 
@@ -19,12 +20,27 @@ import static com.chuhui.chat.interfaces.SyatemConstants.CURRENT_LOGGED_USER;
  */
 public class ChuHuiChatHandlerInterceptor implements HandlerInterceptor {
 
+    private static final String NOT_INTERCEPTOR_REQUEST = "/login";
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 
+        String requestUri = request.getRequestURI();
+
         Object attribute = request.getSession().getAttribute(CURRENT_LOGGED_USER);
+
+        if (attribute == null &&
+                requestUri.endsWith(NOT_INTERCEPTOR_REQUEST) &&
+                request.getMethod().equalsIgnoreCase(HttpMethod.POST.name())) {
+            return true;
+        }
+
         if (attribute == null) {
-            System.err.println(Thread.currentThread().getName() + " intercept from client request uri:" + request.getRequestURI() + ",because not found session");
+            try {
+                response.sendRedirect(request.getContextPath() + "/index.html");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return false;
         }
         return true;

@@ -2,7 +2,13 @@ package com.chuhui.chat.web;
 
 import com.alibaba.fastjson.JSON;
 import com.chuhui.chat.interfaces.dto.ChatLoginDto;
+import com.chuhui.chat.web.config.ChuHuiChatHandlerInterceptor;
 import org.springframework.http.MediaType;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.PathMatcher;
+import org.springframework.util.StringUtils;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
+import org.springframework.web.servlet.handler.MappedInterceptor;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -28,8 +34,36 @@ import static com.chuhui.chat.framework.constant.Contants.formatCurrentTime;
 public class Main {
 
 
-    public static void main(String[] args) throws Exception {
-        getTimeZone();
+    public static void main(String[] args) {
+        testMappedInterceptor();
+    }
+
+
+    static void testMappedInterceptor() {
+
+
+        List<String> excludes = new ArrayList<>();
+        excludes.add("/**/{filename:\\w+}.html");
+        excludes.add("/**/{filename:\\w.+}.css");
+        excludes.add("/**/{filename:\\w.+}.js");
+        excludes.add("/**/{filename:\\w+}.jsp");
+
+
+        String[] exclude = StringUtils.toStringArray(excludes);
+        MappedInterceptor mappedInterceptor = new MappedInterceptor(null, exclude, new ChuHuiChatHandlerInterceptor());
+
+        PathMatcher pathMatcher = new AntPathMatcher();
+
+
+        System.err.println(mappedInterceptor.matches("/aini/sdadjkadnkj/woaini.jsp", pathMatcher));
+        System.err.println(mappedInterceptor.matches("/index.html", pathMatcher));
+        System.err.println(mappedInterceptor.matches("/webjars/bootstrap/3.3.7/css/bootstrap.min.css", pathMatcher));
+        System.err.println(mappedInterceptor.matches("/webjars/bootstrap/3.3.7/css/bootstrapmin.css", pathMatcher));
+        System.err.println(mappedInterceptor.matches("/webjars/sockjs-client/1.0.2/sockjs.min.js", pathMatcher));
+        System.err.println(mappedInterceptor.matches("/webjars/sockjsclient/1.0.2/sockjsmin.js", pathMatcher));
+//
+
+
     }
 
 
@@ -43,9 +77,7 @@ public class Main {
     }
 
 
-    static void getFiJiDST(){
-
-
+    static void getFiJiDST() {
 
 
     }
@@ -105,7 +137,6 @@ public class Main {
 //        Function funct
 
 
-
 //        collect.stream().collect(Collectors.groupingBy(date->{
 //
 //
@@ -122,7 +153,7 @@ public class Main {
 
         List<String> streams = collect.stream().map(format::format).collect(Collectors.toList());
 
-        Files.write(path,streams);
+        Files.write(path, streams);
 
         /**
          * 斐济2019-2020年夏令时
@@ -135,11 +166,7 @@ public class Main {
         // 一点进展都没有...这也太那啥了吧
 
 
-
-
-
         System.err.println("end time" + formatCurrentTime(customTimeFormat));
-
 
 
         System.err.println("this is debug");
@@ -164,7 +191,7 @@ public class Main {
         Date time = calendar.getTime();
         while (time.compareTo(finalTime) < 0) {
 //            if (defaultTimeZone.inDaylightTime(time)) {
-                dates.add(time);
+            dates.add(time);
 //            }
             calendar.add(Calendar.HOUR, 1);
             time = calendar.getTime();

@@ -49,9 +49,6 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 ////        registry.jsp("/WEB-INF/jsp/",".jsp");
 //    }
 
-// 如何加一个全局的拦截器??
-
-    private ResourceHandlerRegistry registry;
 
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
@@ -61,10 +58,10 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         /**
          * 将一切静态资源,全部放过去
          */
-        registry.addResourceHandler("images/**.png").addResourceLocations("/images/").setCachePeriod(-1);
-        registry.addResourceHandler("css/**.css").addResourceLocations("/css/").setCachePeriod(-1);
-        registry.addResourceHandler("js/**.js").addResourceLocations("/js/").setCachePeriod(-1);
-        registry.addResourceHandler("fonts/**.ttf").addResourceLocations("/fonts/").setCachePeriod(-1);
+        registry.addResourceHandler("images/**").addResourceLocations("/images/").setCachePeriod(-1);
+        registry.addResourceHandler("css/**").addResourceLocations("/css/").setCachePeriod(-1);
+        registry.addResourceHandler("js/**").addResourceLocations("/js/").setCachePeriod(-1);
+        registry.addResourceHandler("fonts/**").addResourceLocations("/fonts/").setCachePeriod(-1);
         registry.addResourceHandler("layui/**").addResourceLocations("/layui/").setCachePeriod(-1);
         registry.addResourceHandler("webjars/**").addResourceLocations("/webjars/").setCachePeriod(-1);
         // html 需要经过视图解析器, 才能识别里面的东西
@@ -173,14 +170,14 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     protected void addInterceptors(InterceptorRegistry registry) {
 
         System.err.println("invoke method addInterceptors "+formatCurrentTime(customTimeFormat2));
-        InterceptorRegistration interceptorRegistration = registry.addInterceptor(new ChuHuiChatHandlerInterceptor());
+        InterceptorRegistration registration = registry.addInterceptor(new ChuHuiChatHandlerInterceptor());
 
-        interceptorRegistration.excludePathPatterns("/**.html");
-//        interceptorRegistration.excludePathPatterns("/**.css");
-//        interceptorRegistration.excludePathPatterns("/**.js");
+        // 总结一下,这一点很好..
+        // 知道了其内部原理
+        //
+        registration.excludePathPatterns("/**/{filename:\\w+}.html", "/**/{filename:\\w.+}.css","/**/{filename:\\w.+}.js","/**/{filename:\\w.+}.map");
 
 
-//                .excludePathPatterns("/**.html");
     }
 
 
