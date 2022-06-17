@@ -21,7 +21,7 @@
         <javax-servlet.version>4.0.1.cyzi</javax-servlet.version>
         <chat-version>1.0-SNAPSHOT</chat-version>
         <thymeleaf.version>3.0.11.RELEASE</thymeleaf.version>
-        <fastjson.version>1.2.62</fastjson.version>
+        <fastjson.version>1.2.83</fastjson.version>
         <logback.version>1.2.3</logback.version>
         <sl4j.version>1.7.25</sl4j.version>
         <jedis.version>3.1.0</jedis.version>
